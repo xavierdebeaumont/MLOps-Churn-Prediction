@@ -1,0 +1,44 @@
+schema: '2.0'
+stages:
+  raw_dataset_creation:
+    cmd: python src/data/make_raw_data.py --config=parameters.yaml
+    deps:
+    - path: data/external/train.csv
+      md5: 8929517566f004183dff480fdd48afe0
+      size: 391872
+    - path: src/data/make_raw_data.py
+      md5: c977f14bedd25d244a07cf887187e9d4
+      size: 1413
+    outs:
+    - path: data/raw/train.csv
+      md5: fc39541a9759aa9e90cc386dad103a23
+      size: 300491
+  split_data:
+    cmd: python src/data/split_dataset.py --config=parameters.yaml
+    deps:
+    - path: data/interim/train_interim.csv
+      md5: d47ab461f39f3e1688960825cdc4cb66
+      size: 186320
+    - path: src/data/split_dataset.py
+      md5: a7194060de2ec4c0b0ce8f431aaf36b0
+      size: 1400
+    outs:
+    - path: data/processed/churn_test.csv
+      md5: 72573003eac276b0311ae753d6a847ae
+      size: 35322
+    - path: data/processed/churn_train.csv
+      md5: dcdb965cd7b9cdc8e4122fcc027aaf8a
+      size: 141566
+  feature_engineering:
+    cmd: python src/data/features_engineering.py --config=parameters.yaml
+    deps:
+    - path: data/raw/train.csv
+      md5: fc39541a9759aa9e90cc386dad103a23
+      size: 300491
+    - path: src/data/features_engineering.py
+      md5: c5c00f0d1c8a3728c0957ea23552fd4d
+      size: 1542
+    outs:
+    - path: data/interim/train_interim.csv
+      md5: d47ab461f39f3e1688960825cdc4cb66
+      size: 186320
