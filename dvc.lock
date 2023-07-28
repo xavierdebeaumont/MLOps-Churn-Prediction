@@ -1,7 +1,7 @@
 schema: '2.0'
 stages:
   raw_dataset_creation:
-    cmd: python src/data/make_raw_data.py --config=parameters.yaml
+    cmd: python src/data/make_raw_data.py --config=params.yaml
     deps:
     - path: data/external/train.csv
       md5: 8929517566f004183dff480fdd48afe0
@@ -14,7 +14,7 @@ stages:
       md5: fc39541a9759aa9e90cc386dad103a23
       size: 300491
   split_data:
-    cmd: python src/data/split_dataset.py --config=parameters.yaml
+    cmd: python src/data/split_dataset.py --config=params.yaml
     deps:
     - path: data/interim/train_interim.csv
       md5: d47ab461f39f3e1688960825cdc4cb66
@@ -30,7 +30,7 @@ stages:
       md5: dcdb965cd7b9cdc8e4122fcc027aaf8a
       size: 141566
   feature_engineering:
-    cmd: python src/data/features_engineering.py --config=parameters.yaml
+    cmd: python src/data/features_engineering.py --config=params.yaml
     deps:
     - path: data/raw/train.csv
       md5: fc39541a9759aa9e90cc386dad103a23
@@ -42,3 +42,33 @@ stages:
     - path: data/interim/train_interim.csv
       md5: d47ab461f39f3e1688960825cdc4cb66
       size: 186320
+  model_train:
+    cmd: python src/models/train_models.py --config=params.yaml
+    deps:
+    - path: data/processed/churn_test.csv
+      md5: 72573003eac276b0311ae753d6a847ae
+      size: 35322
+    - path: data/processed/churn_train.csv
+      md5: dcdb965cd7b9cdc8e4122fcc027aaf8a
+      size: 141566
+    - path: src/models/train_models.py
+      md5: 5812b205a01914ac8cf5f07d38b7dba9
+      size: 5321
+    params:
+      params.yaml:
+        random_forest.max_depth: 10
+        random_forest.n_estimators: 100
+  log_production_model:
+    cmd: python src/models/prod_model_selection.py --config=params.yaml
+    deps:
+    - path: src/models/prod_model_selection.py
+      md5: 804cfbcd53d096c2a39aa7b145fbbf11
+      size: 2204
+    params:
+      params.yaml:
+        random_forest.max_depth: 10
+        random_forest.n_estimators: 100
+    outs:
+    - path: models/model.joblib
+      md5: c2b12b54398e9d53d788f2145f5c78a3
+      size: 2451725

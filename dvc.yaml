@@ -1,6 +1,6 @@
 stages:
   raw_dataset_creation:
-    cmd: python src/data/make_raw_data.py --config=parameters.yaml
+    cmd: python src/data/make_raw_data.py --config=params.yaml
     deps:
     - src/data/make_raw_data.py
     - data/external/train.csv
@@ -8,7 +8,7 @@ stages:
     - data/raw/train.csv
   
   feature_engineering:
-    cmd: python src/data/features_engineering.py --config=parameters.yaml
+    cmd: python src/data/features_engineering.py --config=params.yaml
     deps:
     - src/data/features_engineering.py
     - data/raw/train.csv
@@ -16,7 +16,7 @@ stages:
     - data/interim/train_interim.csv
   
   split_data:
-    cmd: python src/data/split_dataset.py --config=parameters.yaml
+    cmd: python src/data/split_dataset.py --config=params.yaml
     deps:
     - src/data/split_dataset.py
     - data/interim/train_interim.csv
@@ -24,22 +24,22 @@ stages:
     - data/processed/churn_train.csv
     - data/processed/churn_test.csv
 
-  # model_train:
-  #   cmd: python src/models/train_model.py --config=params.yaml
-  #   deps:
-  #   - data/processed/churn_train.csv
-  #   - data/processed/churn_test.csv
-  #   - src/models/train_model.py
-  #   params:
-  #   - random_forest.max_depth
-  #   - random_forest.n_estimators
+  model_train:
+    cmd: python src/models/train_models.py --config=params.yaml
+    deps:
+    - data/processed/churn_train.csv
+    - data/processed/churn_test.csv
+    - src/models/train_models.py
+    params:
+    - random_forest.max_depth
+    - random_forest.n_estimators
 
-  # log_production_model:
-  #   cmd: python src/models/production_model_selection.py --config=params.yaml
-  #   deps:
-  #   - src/models/production_model_selection.py
-  #   params:
-  #   - random_forest.max_depth
-  #   - random_forest.n_estimators
-  #   outs:
-  #   - models/model.joblib
+  log_production_model:
+    cmd: python src/models/prod_model_selection.py --config=params.yaml
+    deps:
+    - src/models/prod_model_selection.py
+    params:
+    - random_forest.max_depth
+    - random_forest.n_estimators
+    outs:
+    - models/model.joblib
