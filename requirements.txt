@@ -12,3 +12,4 @@ mlflow
 joblib
 fastapi
 uvicorn[standard]
+streamlit
