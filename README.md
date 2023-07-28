@@ -1,7 +1,7 @@
 churn_mlops
 ==============================
 
-End to End ML pipeline with MLOps practice implementation to predict churn.
+End to End ML pipeline with MLOps practice implementation to predict churn. DVC is used to create the ml pipeline workflow and mlflow is used for its model registry.
 An API serves the data and an interface with streamlit allow user to input his data via a form.
 
 ## Built with
