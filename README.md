@@ -6,7 +6,7 @@ An API serves the data and an interface with streamlit allow user to input his d
 
 ## Built with
 
-- [![DVC](https://img.shields.io/badge/DVC-Data%20Version%20Control-945DD6?logo=dvc)](https://dvc.org/)
+- [![DVC](https://img.shields.io/badge/DVC-Data%20Version%20Control-945DD6?logo=dvc)](https://odvc.rg/)
 - [![MLFlow](https://img.shields.io/badge/MLFlow-Model%20Registry-0193E1?style=blue&logo=MLFlow)](https://mlflow.org/)
 - [![FastAPI](https://img.shields.io/badge/FastAPI-Backend-019486?style=green&logo=fastapi&logoColor=Green)](https://fastapi.tiangolo.com/)
 - [![Streamlit](https://img.shields.io/badge/Streamlit-Frontend-FF4B4B?style=blue&logo=streamlit)](https://streamlit.io/)
@@ -57,7 +57,7 @@ Run the streamlit frontend:
 streamlit run app/streamlit/app.py
 ```
 
-Request example:
+Request example (churn : no):
 ```
 { 
 "international_plan": "no", 
